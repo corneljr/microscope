@@ -12,3 +12,12 @@ Router.map( function(){
 		data: function() { return Posts.findOne(this.params._id); }
 	});
 });
+
+var requireLogin = function() {
+	if (! Meteor.user()) {
+		this.render('accessDenied');
+		this.stop();
+	}
+}
+
+Router.before(requireLogin, {only: 'postSubmit'})
